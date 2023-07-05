@@ -1,6 +1,4 @@
-const dotenv = require('dotenv');
-
-dotenv.config({ path: '.env.deploy' });
+require('dotenv').config({ path: './.env.deploy' });
 
 const {
   PORT,
@@ -24,12 +22,6 @@ module.exports = {
         JWT_SECRET,
         DB_ADDRESS,
       },
-      env_development: {
-        NODE_ENV: 'development',
-        PORT,
-        JWT_SECRET,
-        DB_ADDRESS,
-      },
     },
   ],
   deploy: {
@@ -39,8 +31,8 @@ module.exports = {
       ref: DEPLOY_REF,
       repo: DEPLOY_REPO,
       path: DEPLOY_PATH,
-      'pre-deploy-local': `scp ./.env ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
-      'post-deploy': 'npm i && npm run build',
+      'pre-deploy-local': `scp ./.env.deploy ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
+      'post-deploy': 'npm i && npm run build && pm2 kill && pm2 start ecosystem.config.js && pm2 save',
     },
   },
 };
