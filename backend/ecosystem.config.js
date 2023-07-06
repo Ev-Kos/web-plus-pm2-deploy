@@ -14,7 +14,7 @@ const {
 module.exports = {
   apps: [
     {
-      name: 'mesto',
+      name: 'mesto-backend',
       script: './dist/app.js',
       env_production: {
         NODE_ENV: 'production',
@@ -32,7 +32,7 @@ module.exports = {
       repo: DEPLOY_REPO,
       path: DEPLOY_PATH,
       'pre-deploy-local': `scp ./.env.deploy ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/source/backend`,
-      'post-deploy': 'cd backend && npm i && npm run build && pm2 start',
+      'post-deploy': `cd ${DEPLOY_PATH}/source/backend/ && npm i && npm run build && pm2 start`,
     },
   },
 };
